@@ -1,0 +1,69 @@
+body {
+    background-color: #000;
+    font-family: "Inter Tight", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1, span {
+    color: #ff4929;
+}
+
+p {
+    color: aliceblue;
+}
+
+img {
+    width: 550px;
+    height: 600px;
+}
+
+header, #city, #school, #hobby, footer, #content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+header {
+    position: fixed;
+    max-height: 30px;
+}
+
+.buf {
+    height: 150px;
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(158, 158, 158);
+}
+
+a:hover {
+    color: aliceblue;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 30px;
+}
+
+#city, #school, #hobby, #content {
+    flex-direction: column;
+    align-items: center;
+}
+
+footer {
+    margin-top: 50px;
+    height: 30px;
+}
