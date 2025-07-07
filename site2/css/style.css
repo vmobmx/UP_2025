@@ -1,5 +1,8 @@
+
+/* */
+
 body {
-    background-color: #000;
+    background-color: white;
     font-family: "Inter Tight", sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
@@ -16,7 +19,8 @@ h1, span {
 }
 
 p {
-    color: aliceblue;
+    color: rgb(100, 100, 100);
+    
 }
 
 img {
@@ -25,14 +29,17 @@ img {
 }
 
 header, #city, #school, #hobby, footer, #content {
+    margin: 0 auto;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-content: center;
 }
 
 header {
     position: fixed;
-    max-height: 30px;
+    height: 100px;
+    background-color: wheat;
 }
 
 .buf {
@@ -46,11 +53,11 @@ header {
 
 a {
     text-decoration: none;
-    color: rgb(158, 158, 158);
+    color: black;
 }
 
 a:hover {
-    color: aliceblue;
+    color: grey;
 }
 
 .navbar li {
@@ -58,9 +65,10 @@ a:hover {
     margin-right: 30px;
 }
 
-#city, #school, #hobby, #content {
+#content, #history {
     flex-direction: column;
     align-items: center;
+    width: 80%;
 }
 
 footer {
