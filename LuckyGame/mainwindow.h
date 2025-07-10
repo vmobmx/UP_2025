@@ -12,7 +12,7 @@
 #include <QIntValidator>
 #include <QMessageBox>
 #include <QTimer>
-#include <QPixmap> // NEW: For image icons
+#include <QPixmap>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -26,38 +26,33 @@ private slots:
     void showSlotsGame();
     void showRouletteGame();
     void exitGame();
-    void setInitialDeposit(); // Modified: Single deposit function for main menu
+    void setInitialDeposit();
 
-    // Slots Game Slots
     void spinSlots();
     void returnToMainMenuFromSlots();
     void updateSlotsAnimation();
     void stopSlotsAnimation();
 
-    // Roulette Game Slots
     void spinRoulette();
     void returnToMainMenuFromRoulette();
-    // void setInitialDepositRoulette(); // Removed: Deposit handled in main menu
     void placeBetRoulette(int type);
     void updateRouletteAnimation();
     void stopRouletteAnimation();
 
 private:
     QStackedWidget *stackedWidget;
-    double playerBalance; // Player's virtual currency balance
+    double playerBalance;
 
-    // --- Main Menu Widgets ---
     QWidget *mainMenuWidget;
-    QLabel *mainMenuBalanceLabel; // NEW: Balance label in main menu
-    QLineEdit *mainMenuDepositInput; // NEW: Deposit input in main menu
-    QPushButton *setDepositMainMenuButton; // NEW: Deposit button in main menu
+    QLabel *mainMenuBalanceLabel;
+    QLineEdit *mainMenuDepositInput;
+    QPushButton *setDepositMainMenuButton;
     QPushButton *slotsButton;
     QPushButton *rouletteButton;
     QPushButton *exitButton;
 
-    // --- Slots Game Widgets ---
     QWidget *slotsGameWidget;
-    QLabel *slotsBalanceLabel; // Kept for display in game screen
+    QLabel *slotsBalanceLabel;
     QLabel *slot1Label;
     QLabel *slot2Label;
     QLabel *slot3Label;
@@ -65,17 +60,14 @@ private:
     QPushButton *backFromSlotsButton;
     QLabel *slotsResultLabel;
     QLineEdit *slotsBetLineEdit;
-    // QPushButton *setDepositSlotsButton; // Removed
-    // QLineEdit *depositInputSlots;       // Removed
 
-    QVector<QString> fruits = {"🍒", "🍋", "🍊", "🍇", "🍓"}; // Sticker "fruits"
+    QVector<QString> fruits = {"🍒", "🍋", "🍊", "🍇", "🍓"};
     QTimer *slotsAnimationTimer;
     int slotsSpinCount;
     int finalSlot1Index, finalSlot2Index, finalSlot3Index;
 
-    // --- Roulette Game Widgets ---
     QWidget *rouletteGameWidget;
-    QLabel *rouletteBalanceLabel; // Kept for display in game screen
+    QLabel *rouletteBalanceLabel;
     QLabel *rouletteNumberDisplay;
     QPushButton *spinRouletteButton;
     QPushButton *betEvenButton;
@@ -87,8 +79,6 @@ private:
     QPushButton *backFromRouletteButton;
     QLabel *rouletteResultLabel;
     QLineEdit *rouletteBetLineEdit;
-    // QPushButton *setDepositRouletteButton; // Removed
-    // QLineEdit *depositInputRoulette;       // Removed
 
     QTimer *rouletteAnimationTimer;
     int rouletteSpinCount;
@@ -96,7 +86,6 @@ private:
     int currentBetType;
 
 
-    // Helper functions
     void setupMainMenu();
     void setupSlotsGame();
     void setupRouletteGame();
