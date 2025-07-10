@@ -2,16 +2,16 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
-#include <algorithm> // For std::find
+#include <algorithm>
 #include <QApplication>
-#include <QFont> // NEW: For fonts
+#include <QFont>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), playerBalance(0.0) {
     stackedWidget = new QStackedWidget(this);
     setCentralWidget(stackedWidget);
 
-    stackedWidget->setStyleSheet("background-color: #1A1A1A; color: #e0e0e0;"); // Very dark background, light grey text
+    stackedWidget->setStyleSheet("background-color: #1A1A1A; color: #e0e0e0;");
 
     slotsAnimationTimer = new QTimer(this);
     connect(slotsAnimationTimer, &QTimer::timeout, this, &MainWindow::updateSlotsAnimation);
@@ -42,12 +42,11 @@ void MainWindow::setupMainMenu() {
     QVBoxLayout *layout = new QVBoxLayout(mainMenuWidget);
     layout->setAlignment(Qt::AlignCenter);
 
-    QLabel *title = new QLabel("Lucky Casino"); // More strict title
-    title->setFont(QFont("Impact", 60, QFont::Bold)); // Bold, impactful font
-    title->setStyleSheet("color: #FFD700; text-shadow: 2px 2px 4px #000000;"); // Gold with shadow
+    QLabel *title = new QLabel("Lucky Casino");
+    title->setFont(QFont("Impact", 60, QFont::Bold));
+    title->setStyleSheet("color: #FFD700; text-shadow: 2px 2px 4px #000000;");
     layout->addWidget(title, 0, Qt::AlignCenter);
 
-    // NEW: Deposit Section in Main Menu
     QHBoxLayout *depositLayout = new QHBoxLayout();
     depositLayout->setAlignment(Qt::AlignCenter);
     QLabel *depositLabel = new QLabel("Deposit Funds:");
@@ -65,7 +64,7 @@ void MainWindow::setupMainMenu() {
     setDepositMainMenuButton = new QPushButton("Set Deposit");
     setDepositMainMenuButton->setFixedSize(120, 30);
     setDepositMainMenuButton->setStyleSheet("QPushButton {"
-                                            "    background-color: #4CAF50;" // Green for deposit
+                                            "    background-color: #4CAF50;"
                                             "    color: white;"
                                             "    font-size: 14px;"
                                             "    border-radius: 5px;"
@@ -73,18 +72,16 @@ void MainWindow::setupMainMenu() {
                                             "QPushButton:hover { background-color: #45a049; }");
     depositLayout->addWidget(setDepositMainMenuButton);
     layout->addLayout(depositLayout);
-    layout->addSpacing(20); // Add some space
+    layout->addSpacing(20);
 
-    // NEW: Balance display in Main Menu with Coin Icon
     QHBoxLayout *balanceLayout = new QHBoxLayout();
     balanceLayout->setAlignment(Qt::AlignCenter);
 
     QLabel *coinIconLabel = new QLabel();
-    QPixmap coinPixmap("coin.png"); // Path to your coin image file
+    QPixmap coinPixmap("coin.png");
     if (!coinPixmap.isNull()) {
         coinIconLabel->setPixmap(coinPixmap.scaled(32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     } else {
-        // Fallback to emoji if image not found
         coinIconLabel->setText("💰");
         coinIconLabel->setFont(QFont("Segoe UI Emoji", 24));
     }
@@ -92,27 +89,27 @@ void MainWindow::setupMainMenu() {
 
     mainMenuBalanceLabel = new QLabel(QString("Balance: %1").arg(playerBalance, 0, 'f', 2));
     mainMenuBalanceLabel->setFont(QFont("Arial", 22, QFont::Bold));
-    mainMenuBalanceLabel->setStyleSheet("color: #FFD700; background-color: #333333; padding: 5px 10px; border-radius: 5px;"); // Gold text on dark grey background
+    mainMenuBalanceLabel->setStyleSheet("color: #FFD700; background-color: #333333; padding: 5px 10px; border-radius: 5px;");
     balanceLayout->addWidget(mainMenuBalanceLabel);
     layout->addLayout(balanceLayout);
     layout->addSpacing(30); // More space
 
     // Strict button styling
     QString strictButtonStyle = "QPushButton {"
-                                "    background-color: #B71C1C;" // Dark Red
-                                "    color: #FFD700;"             // Gold text
+                                "    background-color: #B71C1C;"
+                                "    color: #FFD700;"
                                 "    font-size: 24px;"
                                 "    font-weight: bold;"
-                                "    border: 3px solid #FFD700;" // Gold border
+                                "    border: 3px solid #FFD700;"
                                 "    border-radius: 10px;"
                                 "    padding: 15px 30px;"
                                 "}"
                                 "QPushButton:hover {"
-                                "    background-color: #C62828;" // Slightly brighter red on hover
+                                "    background-color: #C62828;"
                                 "}"
                                 "QPushButton:pressed {"
-                                "    background-color: #A11818;" // Darker red when pressed
-                                "    border: 3px solid #FFA000;" // Darker gold border
+                                "    background-color: #A11818;"
+                                "    border: 3px solid #FFA000;"
                                 "}";
 
     slotsButton = new QPushButton("PLAY SLOTS");
@@ -128,11 +125,11 @@ void MainWindow::setupMainMenu() {
     exitButton = new QPushButton("EXIT GAME");
     exitButton->setFixedSize(300, 70);
     exitButton->setStyleSheet("QPushButton {"
-                              "    background-color: #424242;" // Dark grey/black for exit
-                              "    color: #E0E0E0;"             // Light grey text
+                              "    background-color: #424242;"
+                              "    color: #E0E0E0;"
                               "    font-size: 20px;"
                               "    font-weight: bold;"
-                              "    border: 2px solid #757575;" // Grey border
+                              "    border: 2px solid #757575;"
                               "    border-radius: 8px;"
                               "    padding: 10px 20px;"
                               "}"
@@ -147,7 +144,7 @@ void MainWindow::setupMainMenu() {
     connect(slotsButton, &QPushButton::clicked, this, &MainWindow::showSlotsGame);
     connect(rouletteButton, &QPushButton::clicked, this, &MainWindow::showRouletteGame);
     connect(exitButton, &QPushButton::clicked, this, &QApplication::quit);
-    connect(setDepositMainMenuButton, &QPushButton::clicked, this, &MainWindow::setInitialDeposit); // Connect new deposit button
+    connect(setDepositMainMenuButton, &QPushButton::clicked, this, &MainWindow::setInitialDeposit);
 }
 
 void MainWindow::setupSlotsGame() {
@@ -159,10 +156,6 @@ void MainWindow::setupSlotsGame() {
     slotsBalanceLabel->setFont(QFont("Arial", 22, QFont::Bold));
     slotsBalanceLabel->setStyleSheet("color: #FFD700; background-color: #333333; padding: 5px; border-radius: 5px;");
     layout->addWidget(slotsBalanceLabel, 0, Qt::AlignLeft);
-
-    // Removed deposit section from here as it's now in main menu
-    // QHBoxLayout *depositLayout = new QHBoxLayout();
-    // ...
 
     QHBoxLayout *slotsLayout = new QHBoxLayout();
     slot1Label = new QLabel("🍒");
@@ -233,7 +226,6 @@ void MainWindow::setupSlotsGame() {
 
     connect(spinSlotsButton, &QPushButton::clicked, this, &MainWindow::spinSlots);
     connect(backFromSlotsButton, &QPushButton::clicked, this, &MainWindow::returnToMainMenuFromSlots);
-    // Removed setDepositSlotsButton connect
 }
 
 void MainWindow::setupRouletteGame() {
@@ -245,10 +237,6 @@ void MainWindow::setupRouletteGame() {
     rouletteBalanceLabel->setFont(QFont("Arial", 22, QFont::Bold));
     rouletteBalanceLabel->setStyleSheet("color: #FFD700; background-color: #333333; padding: 5px; border-radius: 5px;");
     layout->addWidget(rouletteBalanceLabel, 0, Qt::AlignLeft);
-
-    // Removed deposit section from here
-    // QHBoxLayout *depositLayout = new QHBoxLayout();
-    // ...
 
     rouletteNumberDisplay = new QLabel("?");
     rouletteNumberDisplay->setFont(QFont("Arial", 80, QFont::Bold));
@@ -362,11 +350,10 @@ void MainWindow::setupRouletteGame() {
         spinRoulette();
     });
     connect(backFromRouletteButton, &QPushButton::clicked, this, &MainWindow::returnToMainMenuFromRoulette);
-    // Removed setDepositRouletteButton connect
 }
 
 void MainWindow::updateBalanceDisplay() {
-    mainMenuBalanceLabel->setText(QString("Balance: %1").arg(playerBalance, 0, 'f', 2)); // Update main menu balance
+    mainMenuBalanceLabel->setText(QString("Balance: %1").arg(playerBalance, 0, 'f', 2));
     slotsBalanceLabel->setText(QString("Balance: %1").arg(playerBalance, 0, 'f', 2));
     rouletteBalanceLabel->setText(QString("Balance: %1").arg(playerBalance, 0, 'f', 2));
 }
@@ -422,9 +409,9 @@ void MainWindow::exitGame() {
     QApplication::quit();
 }
 
-void MainWindow::setInitialDeposit() { // Modified: Unified deposit function
+void MainWindow::setInitialDeposit() {
     bool ok;
-    double deposit = mainMenuDepositInput->text().toDouble(&ok); // Use main menu input
+    double deposit = mainMenuDepositInput->text().toDouble(&ok);
     if (checkDepositValidity(deposit)) {
         playerBalance = deposit;
         updateBalanceDisplay();
@@ -485,7 +472,7 @@ void MainWindow::returnToMainMenuFromSlots() {
     slotsAnimationTimer->stop();
     spinSlotsButton->setEnabled(true);
     stackedWidget->setCurrentWidget(mainMenuWidget);
-    updateBalanceDisplay(); // Update balance in main menu when returning
+    updateBalanceDisplay();
 }
 
 void MainWindow::spinRoulette() {
@@ -608,11 +595,7 @@ void MainWindow::placeBetRoulette(int type) {
         rouletteResultLabel->setText(QString("🎉 YOU WIN! Winning Number: %1. +%2 🎉").arg(finalRouletteNumber).arg(winnings, 0, 'f', 2));
         rouletteResultLabel->setStyleSheet("color: #00FF00;");
     } else {
-        playerBalance -= betAmount; // Deduct if no win, already deducted earlier, so this might be double deduction.
-            // Reverting the deduction from spinRoulette to placeBetRoulette.
-            // Actually, the deduction is fine where it is.
-            // It's already deducted at the start of spinRoulette.
-            // So no change here.
+        playerBalance -= betAmount;
         rouletteResultLabel->setText(QString("😔 YOU LOSE! Winning Number: %1. 😔").arg(finalRouletteNumber));
         rouletteResultLabel->setStyleSheet("color: #FF0000;");
     }
@@ -628,7 +611,7 @@ void MainWindow::returnToMainMenuFromRoulette() {
     betBlackButton->setEnabled(true);
     betOnNumberButton->setEnabled(true);
     stackedWidget->setCurrentWidget(mainMenuWidget);
-    updateBalanceDisplay(); // Update balance in main menu when returning
+    updateBalanceDisplay();
 }
 
 int MainWindow::getRouletteNumberColor(int number) {
@@ -641,5 +624,4 @@ int MainWindow::getRouletteNumberColor(int number) {
 }
 
 void MainWindow::updateRouletteResult(int winningNumber) {
-    // This function is now mostly handled by stopRouletteAnimation
 }
