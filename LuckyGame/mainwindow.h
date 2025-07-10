@@ -13,6 +13,8 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QPixmap>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -85,6 +87,8 @@ private:
     int finalRouletteNumber;
     int currentBetType;
 
+    QMediaPlayer* audioPlayer;
+    QAudioOutput* audioOutput;
 
     void setupMainMenu();
     void setupSlotsGame();
