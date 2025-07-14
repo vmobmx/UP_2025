@@ -11,7 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     stackedWidget = new QStackedWidget(this);
     setCentralWidget(stackedWidget);
 
-    stackedWidget->setStyleSheet("background-color: #1A1A1A; color: #e0e0e0;");
+    stackedWidget->setStyleSheet("background-color: #1A1A1A; "
+                                 "color: #e0e0e0;");
 
     slotsAnimationTimer = new QTimer(this);
     connect(slotsAnimationTimer, &QTimer::timeout, this, &MainWindow::updateSlotsAnimation);
@@ -30,6 +31,13 @@ MainWindow::MainWindow(QWidget *parent)
     stackedWidget->setCurrentWidget(mainMenuWidget);
     setWindowTitle("Lucky Game - Casino Edition");
     setFixedSize(800, 600);
+
+    audioPlayer = new QMediaPlayer(this);
+    audioOutput = new QAudioOutput(this);
+
+    audioPlayer->setAudioOutput(audioOutput);
+    audioPlayer->setSource(QUrl::fromLocalFile("background_music.mp3"));
+    audioPlayer->play();
 }
 
 MainWindow::~MainWindow() {
@@ -44,7 +52,8 @@ void MainWindow::setupMainMenu() {
 
     QLabel *title = new QLabel("Lucky Casino");
     title->setFont(QFont("Impact", 60, QFont::Bold));
-    title->setStyleSheet("color: #FFD700; text-shadow: 2px 2px 4px #000000;");
+    title->setStyleSheet("color: #FFD700; "
+                         "text-shadow: 2px 2px 4px #000000;");
     layout->addWidget(title, 0, Qt::AlignCenter);
 
     QHBoxLayout *depositLayout = new QHBoxLayout();
@@ -58,7 +67,12 @@ void MainWindow::setupMainMenu() {
     mainMenuDepositInput->setPlaceholderText("Enter deposit amount");
     mainMenuDepositInput->setValidator(new QDoubleValidator(0.0, 1000000.0, 2, this));
     mainMenuDepositInput->setFixedSize(150, 30);
-    mainMenuDepositInput->setStyleSheet("QLineEdit { background-color: #f0f0f0; color: #333333; border: 1px solid #555; padding: 5px; border-radius: 3px; }");
+    mainMenuDepositInput->setStyleSheet("QLineEdit { "
+                                        "background-color: #f0f0f0;"
+                                        " color: #333333; "
+                                        "border: 1px solid #555; "
+                                        "padding: 5px; border-radius: 3px; "
+                                        "}");
     depositLayout->addWidget(mainMenuDepositInput);
 
     setDepositMainMenuButton = new QPushButton("Set Deposit");
@@ -89,7 +103,10 @@ void MainWindow::setupMainMenu() {
 
     mainMenuBalanceLabel = new QLabel(QString("Balance: %1").arg(playerBalance, 0, 'f', 2));
     mainMenuBalanceLabel->setFont(QFont("Arial", 22, QFont::Bold));
-    mainMenuBalanceLabel->setStyleSheet("color: #FFD700; background-color: #333333; padding: 5px 10px; border-radius: 5px;");
+    mainMenuBalanceLabel->setStyleSheet("color: #FFD700; "
+                                        "background-color: #333333;"
+                                        " padding: 5px 10px; "
+                                        "border-radius: 5px;");
     balanceLayout->addWidget(mainMenuBalanceLabel);
     layout->addLayout(balanceLayout);
     layout->addSpacing(30); // More space
@@ -154,7 +171,10 @@ void MainWindow::setupSlotsGame() {
 
     slotsBalanceLabel = new QLabel(QString("Balance: %1").arg(playerBalance, 0, 'f', 2));
     slotsBalanceLabel->setFont(QFont("Arial", 22, QFont::Bold));
-    slotsBalanceLabel->setStyleSheet("color: #FFD700; background-color: #333333; padding: 5px; border-radius: 5px;");
+    slotsBalanceLabel->setStyleSheet("color: #FFD700;"
+                                     "background-color: #333333; "
+                                     "padding: 5px; "
+                                     "border-radius: 5px;");
     layout->addWidget(slotsBalanceLabel, 0, Qt::AlignLeft);
 
     QHBoxLayout *slotsLayout = new QHBoxLayout();
@@ -167,7 +187,12 @@ void MainWindow::setupSlotsGame() {
     slot2Label->setFont(slotFont);
     slot3Label->setFont(slotFont);
 
-    QString slotStyle = "QLabel { background-color: #222222; border: 3px solid #FFD700; border-radius: 10px; padding: 10px; }";
+    QString slotStyle = "QLabel { "
+                        "background-color: #222222; "
+                        "border: 3px solid #FFD700; "
+                        "border-radius: 10px; "
+                        "padding: 10px; "
+                        "}";
     slot1Label->setStyleSheet(slotStyle);
     slot2Label->setStyleSheet(slotStyle);
     slot3Label->setStyleSheet(slotStyle);
@@ -187,7 +212,13 @@ void MainWindow::setupSlotsGame() {
     slotsBetLineEdit = new QLineEdit();
     slotsBetLineEdit->setPlaceholderText("e.g., 10");
     slotsBetLineEdit->setValidator(new QDoubleValidator(0.0, 1000000.0, 2, this));
-    slotsBetLineEdit->setStyleSheet("QLineEdit { background-color: #f0f0f0; color: #333333; border: 1px solid #555; padding: 5px; border-radius: 3px; }");
+    slotsBetLineEdit->setStyleSheet("QLineEdit {"
+                                    "background-color: #f0f0f0; "
+                                    "color: #333333; "
+                                    "border: 1px solid #555; "
+                                    "padding: 5px; "
+                                    "border-radius: 3px; "
+                                    "}");
     betLayout->addWidget(betLabel);
     betLayout->addWidget(slotsBetLineEdit);
     layout->addLayout(betLayout);
@@ -235,14 +266,20 @@ void MainWindow::setupRouletteGame() {
 
     rouletteBalanceLabel = new QLabel(QString("Balance: %1").arg(playerBalance, 0, 'f', 2));
     rouletteBalanceLabel->setFont(QFont("Arial", 22, QFont::Bold));
-    rouletteBalanceLabel->setStyleSheet("color: #FFD700; background-color: #333333; padding: 5px; border-radius: 5px;");
+    rouletteBalanceLabel->setStyleSheet("color: #FFD700; "
+                                        "background-color: #333333;"
+                                        " padding: 5px; "
+                                        "border-radius: 5px;");
     layout->addWidget(rouletteBalanceLabel, 0, Qt::AlignLeft);
 
     rouletteNumberDisplay = new QLabel("?");
     rouletteNumberDisplay->setFont(QFont("Arial", 80, QFont::Bold));
     rouletteNumberDisplay->setAlignment(Qt::AlignCenter);
     rouletteNumberDisplay->setFixedSize(180, 180);
-    rouletteNumberDisplay->setStyleSheet("border: 5px solid #FFD700; background-color: #222222; border-radius: 90px; color: #e0e0e0;");
+    rouletteNumberDisplay->setStyleSheet("border: 5px solid #FFD700; "
+                                         "background-color: #222222; "
+                                         "border-radius: 90px; "
+                                         "color: #e0e0e0;");
     layout->addWidget(rouletteNumberDisplay, 0, Qt::AlignCenter);
 
     spinRouletteButton = new QPushButton("Spin Roulette!");
@@ -265,7 +302,13 @@ void MainWindow::setupRouletteGame() {
     rouletteBetLineEdit = new QLineEdit();
     rouletteBetLineEdit->setPlaceholderText("e.g., 20");
     rouletteBetLineEdit->setValidator(new QDoubleValidator(0.0, 1000000.0, 2, this));
-    rouletteBetLineEdit->setStyleSheet("QLineEdit { background-color: #f0f0f0; color: #333333; border: 1px solid #555; padding: 5px; border-radius: 3px; }");
+    rouletteBetLineEdit->setStyleSheet("QLineEdit {"
+                                       " background-color: #f0f0f0; "
+                                       "color: #333333; "
+                                       "border: 1px solid #555;"
+                                       " padding: 5px; "
+                                       "border-radius: 3px; "
+                                       "}");
     betOptionsLayout->addWidget(betAmountLabel);
     betOptionsLayout->addWidget(rouletteBetLineEdit);
     layout->addLayout(betOptionsLayout);
@@ -302,7 +345,13 @@ void MainWindow::setupRouletteGame() {
     betNumberLineEdit = new QLineEdit();
     betNumberLineEdit->setPlaceholderText("e.g., 17");
     betNumberLineEdit->setValidator(new QIntValidator(0, 36, this));
-    betNumberLineEdit->setStyleSheet("QLineEdit { background-color: #f0f0f0; color: #333333; border: 1px solid #555; padding: 5px; border-radius: 3px; }");
+    betNumberLineEdit->setStyleSheet("QLineEdit { "
+                                     "background-color: #f0f0f0; "
+                                     "color: #333333;"
+                                     "border: 1px solid #555;"
+                                     "padding: 5px;"
+                                     "border-radius: 3px; "
+                                     "}");
     betOnNumberButton = new QPushButton("Place Number Bet");
     betOnNumberButton->setStyleSheet(betButtonStyle);
     numberBetLayout->addWidget(betNumberLabel);
@@ -400,7 +449,10 @@ void MainWindow::showRouletteGame() {
     rouletteBetLineEdit->clear();
     betNumberLineEdit->clear();
     rouletteNumberDisplay->setText("?");
-    rouletteNumberDisplay->setStyleSheet("border: 5px solid #FFD700; background-color: #222222; border-radius: 90px; color: #e0e0e0;");
+    rouletteNumberDisplay->setStyleSheet("border: 5px solid #FFD700;"
+                                         "background-color: #222222;"
+                                         "border-radius: 90px; "
+                                         "color: #e0e0e0;");
     rouletteResultLabel->setStyleSheet("color: #FFEB3B;");
     currentBetType = -1;
 }
@@ -501,7 +553,11 @@ void MainWindow::updateRouletteAnimation() {
     rouletteNumberDisplay->setText(QString::number(randomNum));
 
     int color = getRouletteNumberColor(randomNum);
-    QString styleSheet = "border: 5px solid #FFD700; border-radius: 90px; color: white; font-size: 80px; font-weight: bold;";
+    QString styleSheet = "border: 5px solid #FFD700; "
+                         "border-radius: 90px; "
+                         "color: white; "
+                         "font-size: 80px; "
+                         "font-weight: bold;";
     if (color == 0) {
         styleSheet += "background-color: green;";
     } else if (color == 1) {
@@ -529,7 +585,11 @@ void MainWindow::stopRouletteAnimation() {
     rouletteNumberDisplay->setText(QString::number(finalRouletteNumber));
 
     int color = getRouletteNumberColor(finalRouletteNumber);
-    QString styleSheet = "border: 5px solid #FFD700; border-radius: 90px; color: white; font-size: 80px; font-weight: bold;";
+    QString styleSheet = "border: 5px solid #FFD700;"
+                         "border-radius: 90px;"
+                         "color: white;"
+                         "font-size: 80px;"
+                         "font-weight: bold;";
     if (color == 0) {
         styleSheet += "background-color: green;";
     } else if (color == 1) {
